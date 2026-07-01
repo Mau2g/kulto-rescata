@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ofertas especiales de Kulto Rescata: descuentos fuertes de última hora en platos próximos a vencer. Rescata comida de especialidad en Arequipa antes de que se desperdicie." />
+  <title>Kulto Rescata · Ofertas especiales de última hora</title>
+
+  <!-- Tipografías externas (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,800&family=Gochi+Hand&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/estilos.css" />
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+
+  <!-- ============================ ENCABEZADO ============================ -->
+  <header class="encabezado">
+    <div class="encabezado__inner">
+      <a class="logo" href="index.html" aria-label="Kulto Rescata · inicio">
+        <img src="img/logo.png" alt="Kulto" width="180" height="60" />
+        <span class="logo__sello">Rescata</span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="menu.html">Menú</a>
+        <a href="ofertas.html" class="activo" aria-current="page">Ofertas</a>
+        <a href="form_pedido.html">Pedir <span id="contador-pedido" class="insignia insignia--vino" style="display:none">0</span></a>
+        <a href="pedidos.html">Pedidos</a>
+        <a class="nav__cta" href="login.html">Ingresar</a>
+      </nav>
+
+      <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" onclick="alternarMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <path d="M3 6h18M3 12h18M3 18h18" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============================ PORTADA ============================ -->
+    <section class="portada">
+      <div class="portada__inner">
+        <div class="portada__texto">
+          <span class="mano">Última hora</span>
+          <h1>Ofertas especiales</h1>
+          <p>
+            Cerramos el día y no queremos tirar nada. Estos platos salen con descuentos
+            fuertes, hasta 70% menos, para que buena comida termine en tu mesa y no en la
+            basura. Reserva rápido, son las últimas porciones.
+          </p>
+        </div>
+        <div class="portada__arte">
+          <img src="img/mascota-entrada.png" alt="Mascota de Kulto llegando al rescate de última hora" width="240" height="240" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ REBAJAS DE CIERRE (tarjetas) ============================ -->
+    <section class="seccion">
+      <div class="seccion__cabecera">
+        <span class="mano">Rebajas de cierre</span>
+        <h2>Se van con todo antes de cerrar.</h2>
+        <p>Precios de última hora en platos frescos, pero próximos a vencer. Lo que ves es lo que queda: cuando se acaba, se acaba.</p>
+      </div>
+      <div class="grid-platos">
+
+        <!-- 1 · Divina Trucha (salado) -70% -->
+        <article class="plato oferta" data-categoria="salado">
+          <div class="plato__foto">
+            <span class="plato__inicial">D</span>
+            <div class="plato__insignias">
+              <span class="insignia insignia--eco">Rescatado</span>
+              <span class="insignia insignia--vence">Vence hoy</span>
+            </div>
+          </div>
+          <div class="plato__cuerpo">
+            <span class="plato__nombre">Divina Trucha</span>
+            <p class="plato__desc">Trucha de altura, generosa y bendita. Última ración del día, lista para rescatar.</p>
+            <div class="plato__precios">
+              <span class="plato__antes">S/ 27.00</span>
+              <span class="plato__ahora">S/ 8.10</span>
+            </div>
+            <div class="plato__pie">
+              <span class="insignia insignia--vino">-70%</span>
+              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('Divina Trucha', 8.10)">Reservar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2 · Panqueques de Pistacho (dulce) -70% -->
+        <article class="plato oferta" data-categoria="dulce">
+          <div class="plato__foto">
+            <span class="plato__inicial">P</span>
+            <div class="plato__insignias">
+              <span class="insignia insignia--eco">Rescatado</span>
+              <span class="insignia insignia--vence">Vence hoy</span>
+            </div>
+          </div>
+          <div class="plato__cuerpo">
+            <span class="plato__nombre">Panqueques de Pistacho</span>
+            <p class="plato__desc">Un pequeño milagro para equilibrar el alma. Quedan las últimas porciones.</p>
+            <div class="plato__precios">
+              <span class="plato__antes">S/ 26.00</span>
+              <span class="plato__ahora">S/ 7.80</span>
+            </div>
+            <div class="plato__pie">
+              <span class="insignia insignia--vino">-70%</span>
+              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('Panqueques de Pistacho', 7.80)">Reservar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3 · Butifarra (salado) -60% -->
+        <article class="plato oferta" data-categoria="salado">
+          <div class="plato__foto">
+            <span class="plato__inicial">B</span>
+            <div class="plato__insignias">
+              <span class="insignia insignia--eco">Rescatado</span>
+              <span class="insignia insignia--vence">Vence hoy</span>
+            </div>
+          </div>
+          <div class="plato__cuerpo">
+            <span class="plato__nombre">Butifarra</span>
+            <p class="plato__desc">El sánguche peruanísimo y bendito. Del mostrador a tu mano, sin desperdicio.</p>
+            <div class="plato__precios">
+              <span class="plato__antes">S/ 20.00</span>
+              <span class="plato__ahora">S/ 8.00</span>
+            </div>
+            <div class="plato__pie">
+              <span class="insignia insignia--vino">-60%</span>
+              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('Butifarra', 8)">Reservar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4 · Berry Bowl (dulce) -60% -->
+        <article class="plato oferta" data-categoria="dulce">
+          <div class="plato__foto">
+            <span class="plato__inicial">B</span>
+            <div class="plato__insignias">
+              <span class="insignia insignia--eco">Rescatado</span>
+              <span class="insignia insignia--vence">Vence mañana</span>
+            </div>
+          </div>
+          <div class="plato__cuerpo">
+            <span class="plato__nombre">Berry Bowl</span>
+            <p class="plato__desc">Frutos rojos y crema, fresco de la mañana. Rescátalo antes de que pase su punto.</p>
+            <div class="plato__precios">
+              <span class="plato__antes">S/ 23.00</span>
+              <span class="plato__ahora">S/ 9.20</span>
+            </div>
+            <div class="plato__pie">
+              <span class="insignia insignia--vino">-60%</span>
+              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('Berry Bowl', 9.20)">Reservar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5 · Affogato (cafe) -60% -->
+        <article class="plato oferta" data-categoria="cafe">
+          <div class="plato__foto">
+            <span class="plato__inicial">A</span>
+            <div class="plato__insignias">
+              <span class="insignia insignia--eco">Rescatado</span>
+              <span class="insignia insignia--vence">Vence hoy</span>
+            </div>
+          </div>
+          <div class="plato__cuerpo">
+            <span class="plato__nombre">Affogato</span>
+            <p class="plato__desc">Helado ahogado en espresso, culto al buen final. Se toma ya o se pierde.</p>
+            <div class="plato__precios">
+              <span class="plato__antes">S/ 13.00</span>
+              <span class="plato__ahora">S/ 5.20</span>
+            </div>
+            <div class="plato__pie">
+              <span class="insignia insignia--vino">-60%</span>
+              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('Affogato', 5.20)">Reservar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6 · Brownie (bakery) -60% -->
+        <article class="plato oferta" data-categoria="bakery">
+          <div class="plato__foto">
+            <span class="plato__inicial">B</span>
+            <div class="plato__insignias">
+              <span class="insignia insignia--eco">Rescatado</span>
+              <span class="insignia insignia--vence">Vence mañana</span>
+            </div>
+          </div>
+          <div class="plato__cuerpo">
+            <span class="plato__nombre">Brownie</span>
+            <p class="plato__desc">Denso, oscuro y devoto del chocolate. Recién horneado, últimas piezas del mostrador.</p>
+            <div class="plato__precios">
+              <span class="plato__antes">S/ 9.00</span>
+              <span class="plato__ahora">S/ 3.60</span>
+            </div>
+            <div class="plato__pie">
+              <span class="insignia insignia--vino">-60%</span>
+              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('Brownie', 3.60)">Reservar</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================ PIE DE PÁGINA ============================ -->
+  <footer class="pie">
+    <div class="pie__inner">
+      <div class="pie__marca">
+        <span class="pie__lockup">
+          <img src="img/logo.png" alt="Kulto" width="180" height="60" />
+          <span class="pie__sello">Rescata</span>
+        </span>
+        <p>Rescatamos comida de especialidad antes de que se desperdicie. Hecho en Arequipa, con devoción y un poco de humor.</p>
+      </div>
+      <div>
+        <h4>El sitio</h4>
+        <a href="index.html">Inicio</a>
+        <a href="menu.html">Menú de comidas</a>
+        <a href="ofertas.html">Ofertas especiales</a>
+        <a href="pedidos.html">Pedidos realizados</a>
+      </div>
+      <div>
+        <h4>Tu cuenta</h4>
+        <a href="login.html">Iniciar sesión</a>
+        <a href="registrar.html">Registrarte</a>
+        <a href="form_pedido.html">Hacer un pedido</a>
+        <a href="https://wa.me/51902793505" target="_blank" rel="noopener">WhatsApp 902 793 505</a>
+      </div>
+    </div>
+    <div class="pie__abajo">
+      <span class="mano">Peruanísimo y sin desperdicio.</span>
+      <span>© 2026 Kulto Rescata · Arequipa, Perú</span>
+      <span>Taller de Programación Web · APF3 · UTP</span>
+    </div>
+  </footer>
+
+  <!-- botón flotante de WhatsApp -->
+  <a class="wa-flotante" href="https://wa.me/51902793505" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.16c-.25.69-1.46 1.32-2 1.36-.51.04-.51.4-3.21-.67-2.71-1.07-4.41-3.85-4.55-4.03-.13-.18-1.09-1.45-1.09-2.77s.69-1.96.94-2.23c.25-.27.54-.34.72-.34l.51.01c.16.01.39-.06.61.47.25.61.85 2.11.93 2.26.07.15.12.33.02.51-.1.18-.15.29-.3.45-.15.16-.31.36-.45.48-.15.13-.3.27-.13.55.18.27.79 1.31 1.7 2.12 1.17 1.04 2.16 1.37 2.43 1.5.27.13.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.89.27.13.45.2.51.3.07.11.07.62-.18 1.31Z" /></svg>
+  </a>
+
+  <!-- ============================ VENTANA FLOTANTE (modal) ============================ -->
+  <div class="modal" id="modal-ok" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <div class="modal__caja">
+      <div class="modal__icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+      </div>
+      <h3 id="modal-titulo">¡Listo!</h3>
+      <p id="modal-texto">Agregaste el plato a tu rescate.</p>
+      <button class="btn btn--vino" type="button" onclick="cerrarModal('modal-ok')">Seguir explorando</button>
+    </div>
+  </div>
+
+</body>
+</html>

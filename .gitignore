@@ -1,0 +1,7 @@
+# capturas del informe (no forman parte del sitio)
+_capturas/
+# comprimidos generados
+*.zip
+# sistema
+Thumbs.db
+.DS_Store
