@@ -98,7 +98,11 @@ async function registrarUsuario(evento) {
   var res = await sb.auth.signUp({
     email: correo,
     password: clave,
-    options: { data: { nombre: nombre } },
+    options: {
+      data: { nombre: nombre },
+      // si el proyecto exige confirmar correo, el enlace vuelve a NUESTRO sitio
+      emailRedirectTo: baseSitio() + 'login.html',
+    },
   });
   if (res.error) {
     error.textContent = traducirError(res.error.message);
@@ -142,4 +146,45 @@ async function cerrarSesion() {
   window.location.href = 'index.html';
 }
 
-document.addEventListener('DOMContentLoaded', iniciarSesionHeader);
+// base del sitio (hasta la última barra), sirve local y en producción
+function baseSitio() {
+  return window.location.href.replace(/[^/]*(\?.*)?(#.*)?$/, '');
+}
+
+/* ---------- CALLBACK del enlace de confirmación de correo ----------
+   Cuando el usuario vuelve del correo, Supabase agrega datos en el #hash.
+   Si hay error (ej. enlace expirado) lo mostramos claro; si trae la sesión,
+   confirmamos y entramos. Así nunca se ve el hash crudo de error. */
+async function manejarCallbackAuth() {
+  var hash = window.location.hash || '';
+  if (hash.length < 2) return;
+
+  if (hash.indexOf('error') !== -1) {
+    var params = new URLSearchParams(hash.replace(/^#/, ''));
+    var desc = params.get('error_description') || 'El enlace no es válido o expiró.';
+    desc = decodeURIComponent(desc.replace(/\+/g, ' '));
+    var mensaje = 'No se pudo confirmar tu correo: ' + desc + '. Vuelve a registrarte o inicia sesión.';
+    var destino = document.getElementById('error-login') || document.getElementById('error-registro');
+    if (destino) { destino.textContent = mensaje; } else { alert(mensaje); }
+    history.replaceState(null, '', window.location.pathname);
+    return;
+  }
+
+  if (hash.indexOf('access_token') !== -1 && sb !== null) {
+    var res = await sb.auth.getSession();
+    if (res.data.session) {
+      history.replaceState(null, '', window.location.pathname);
+      var t = document.getElementById('modal-texto');
+      if (t) {
+        t.textContent = 'Tu correo fue confirmado. ¡Bienvenido a Kulto Rescata!';
+        abrirModal('modal-ok');
+      }
+      setTimeout(function () { window.location.href = 'index.html'; }, 1500);
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  manejarCallbackAuth();
+  iniciarSesionHeader();
+});
