@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Arma tu pedido de rescate en Kulto Rescata: elige un plato próximo a vencer, indica cantidad y hora de recojo. Menos desperdicio, más sabor." />
-  <title>Kulto Rescata · Formulario de pedido</title>
+  <meta name="description" content="Mis pedidos en Kulto Rescata: revisa los rescates que has pedido, el monto ahorrado y los platos que salvaste del desperdicio." />
+  <title>Kulto Rescata · Mis pedidos</title>
 
   <!-- Tipografías externas (Google Fonts) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,8 +31,8 @@
         <a href="index.html">Inicio</a>
         <a href="menu.html">Menú</a>
         <a href="ofertas.html">Ofertas</a>
-        <a href="form_pedido.html" class="activo" aria-current="page">Pedir <span id="contador-pedido" class="insignia insignia--vino" style="display:none">0</span></a>
-        <a href="pedidos.html">Pedidos</a>
+        <a href="form_pedido.html">Pedir <span id="contador-pedido" class="insignia insignia--vino" style="display:none">0</span></a>
+        <a href="pedidos.html" class="activo" aria-current="page">Pedidos</a>
         <a class="nav__cta" id="auth-cta" href="login.html">Ingresar</a>
       </nav>
 
@@ -49,84 +49,72 @@
     <section class="portada">
       <div class="portada__inner">
         <div>
-          <span class="mano">Arma tu rescate</span>
-          <h1>Formulario de pedido</h1>
+          <span class="mano">Lo que rescataste</span>
+          <h1>Mis pedidos</h1>
           <p>
-            Revisa los platos que agregaste, déjanos tus datos y elige a qué hora pasas por ellos.
-            Reservar toma segundos y le das una segunda oportunidad a comida rica.
+            Aquí ves los rescates que has pedido desde este dispositivo: cada uno es un plato
+            que no terminó en la basura. Revisa el estado, filtra y mira cuánto has ahorrado.
           </p>
         </div>
         <div class="portada__arte">
-          <img src="img/mascota-entrada.png" alt="Mascota de Kulto lista para recibir tu pedido de rescate" width="240" height="240" />
+          <img src="img/mascota-salida.png" alt="Mascota de Kulto celebrando los pedidos rescatados" width="240" height="240" />
         </div>
       </div>
     </section>
 
-    <!-- ============================ PEDIDO (formulario + resumen) ============================ -->
-    <div class="pedido-layout">
-      <!-- IZQUIERDA: formulario -->
-      <form class="formulario formulario--ancho" onsubmit="return enviarPedido(event)">
-        <h2>Reserva tu rescate</h2>
-        <p class="formulario__intro">Completa tus datos y confirma. Te esperamos en el local a la hora que elijas.</p>
-
-        <div class="campos">
-          <div class="campo">
-            <label for="cliente">Tu nombre</label>
-            <input id="cliente" name="cliente" type="text" placeholder="Ej. María Salas" autocomplete="name" />
-          </div>
-          <div class="campo">
-            <label for="telefono">Teléfono</label>
-            <input id="telefono" name="telefono" type="tel" placeholder="Ej. 902 793 505" autocomplete="tel" />
-          </div>
-
-          <div class="campo">
-            <label for="hora">Hora de recojo</label>
-            <input id="hora" name="hora" type="time" value="18:00" />
-          </div>
-          <div class="campo">
-            <label for="metodo">Cómo pagas</label>
-            <select id="metodo" name="metodo">
-              <option value="local">Pago en el local</option>
-              <option value="yape">Yape / Plin</option>
-              <option value="tarjeta">Tarjeta al recoger</option>
-            </select>
-          </div>
-
-          <div class="campo campo--full">
-            <label for="notas">Notas para el local</label>
-            <textarea id="notas" name="notas" placeholder="Ej. Sin azúcar, lo recojo yo mismo, alguna alergia..."></textarea>
-          </div>
+    <!-- ============================ TABLA DE PEDIDOS ============================ -->
+    <section class="seccion">
+      <div class="stats">
+        <div class="stat">
+          <div class="stat__num" id="kpi-total"></div>
+          <div class="stat__label">pedidos</div>
         </div>
-
-        <p class="campo__error" id="error-pedido"></p>
-
-        <div class="formulario__acciones">
-          <button class="btn btn--vino" type="submit">Confirmar pedido</button>
-          <a class="btn btn--linea" href="menu.html">Volver al menú</a>
+        <div class="stat">
+          <div class="stat__num" id="kpi-monto"></div>
+          <div class="stat__label">monto rescatado</div>
         </div>
-
-        <p class="formulario__nota">
-          ¿Aún no tienes cuenta? <a href="registrar.html">Regístrate</a> para guardar tus rescates favoritos.
-        </p>
-      </form>
-
-      <!-- DERECHA: resumen -->
-      <aside class="resumen">
-        <h3>Tu pedido</h3>
-        <div id="carrito-items"></div>
-        <p class="formulario__nota" id="carrito-vacio" style="display:none">
-          Tu carrito está vacío. Ve al <a href="menu.html">menú</a> o a las
-          <a href="ofertas.html">ofertas</a> y añade tus rescates.
-        </p>
-        <div class="resumen__total">
-          <span>Total</span>
-          <span class="resumen__monto" id="res-total">S/ 0.00</span>
+        <div class="stat">
+          <div class="stat__num" id="kpi-platos"></div>
+          <div class="stat__label">platos salvados</div>
         </div>
-        <p class="formulario__nota">
-          Cada rescate evita que buena comida termine en la basura. Gracias por sumarte.
-        </p>
-      </aside>
-    </div>
+      </div>
+
+      <div class="tabla-toolbar">
+        <div class="tabla-toolbar__grupo">
+          <label class="mano" for="filtro-estado">Filtrar por estado</label>
+          <select id="filtro-estado" onchange="filtrarMisPedidos(this.value)">
+            <option value="todos">Todos</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="listo">Listo</option>
+            <option value="entregado">Entregado</option>
+          </select>
+        </div>
+        <div class="tabla-toolbar__grupo">
+          <button class="btn btn--linea" type="button" onclick="vaciarPedidos()">Vaciar historial</button>
+        </div>
+      </div>
+
+      <p class="carta__note" id="pedidos-demo-aviso" style="max-width:none;">
+        Todavía no has hecho pedidos, así que te mostramos algunos de ejemplo. Cuando confirmes
+        un pedido en el <a href="form_pedido.html" style="color:var(--vino-texto);font-weight:600;">checkout</a>, aparecerá aquí.
+      </p>
+
+      <div class="tabla-envoltura">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Cliente</th>
+              <th>Platos</th>
+              <th>Total</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-pedidos"></tbody>
+        </table>
+      </div>
+    </section>
   </main>
 
   <!-- ============================ PIE DE PÁGINA ============================ -->
@@ -165,18 +153,6 @@
   <a class="wa-flotante" href="https://wa.me/51902793505" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.16c-.25.69-1.46 1.32-2 1.36-.51.04-.51.4-3.21-.67-2.71-1.07-4.41-3.85-4.55-4.03-.13-.18-1.09-1.45-1.09-2.77s.69-1.96.94-2.23c.25-.27.54-.34.72-.34l.51.01c.16.01.39-.06.61.47.25.61.85 2.11.93 2.26.07.15.12.33.02.51-.1.18-.15.29-.3.45-.15.16-.31.36-.45.48-.15.13-.3.27-.13.55.18.27.79 1.31 1.7 2.12 1.17 1.04 2.16 1.37 2.43 1.5.27.13.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.22.61-.13.25.09 1.59.75 1.86.89.27.13.45.2.51.3.07.11.07.62-.18 1.31Z" /></svg>
   </a>
-
-  <!-- ============================ VENTANA FLOTANTE (modal) ============================ -->
-  <div class="modal" id="modal-ok" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
-    <div class="modal__caja">
-      <div class="modal__icono">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
-      </div>
-      <h3 id="modal-titulo">¡Listo!</h3>
-      <p id="modal-texto">Agregaste el plato a tu rescate.</p>
-      <button class="btn btn--vino" type="button" onclick="cerrarModal('modal-ok')">Seguir explorando</button>
-    </div>
-  </div>
 
 </body>
 </html>
