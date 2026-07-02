@@ -1,124 +1,117 @@
 /* ============================================================
-   KULTO RESCATA — JavaScript del sitio
-   Taller de Programación Web · APF3 · UTP
+   KULTO RESCATA — JavaScript de la interfaz
+   Taller de Programación Web · UTP
 
-   Solo se usan conceptos del sílabo (Unidad 3):
-   - Variables, constantes y operadores
-   - Estructuras de control y arreglos
-   - Métodos de entrada/salida: prompt, confirm, alert
-   - Eventos desde HTML: onclick, onchange, oninput, onsubmit
-   - Manipulación del DOM con document
-   - Menú responsivo y ventanas flotantes
+   Responsabilidades:
+   - Menú responsivo (hamburguesa)
+   - Ventanas flotantes (modales)
+   - Filtros del menú
+   - Carrito de pedido persistente (se guarda en el navegador con
+     localStorage, así lo que agregas NO se pierde al cambiar de página)
+   - Checkout: pintar el carrito y confirmar el pedido
+
+   La autenticación (login / registro) vive en js/auth.js (Supabase).
    ============================================================ */
 
 /* ------------------------------------------------------------
-   1. MENÚ RESPONSIVO — abre/cierra la navegación en móvil
+   1. MENÚ RESPONSIVO
    ------------------------------------------------------------ */
 function alternarMenu() {
   var nav = document.getElementById('nav');
   var boton = document.getElementById('burger');
-  // toggle: si está abierto lo cierra, si no lo abre
   nav.classList.toggle('abierto');
-  var abierto = nav.classList.contains('abierto');
-  boton.setAttribute('aria-expanded', abierto);
+  boton.setAttribute('aria-expanded', nav.classList.contains('abierto'));
 }
 
 /* ------------------------------------------------------------
    2. VENTANAS FLOTANTES (modales)
    ------------------------------------------------------------ */
 function abrirModal(id) {
-  document.getElementById(id).classList.add('abierto');
+  var m = document.getElementById(id);
+  if (m) m.classList.add('abierto');
 }
 function cerrarModal(id) {
-  document.getElementById(id).classList.remove('abierto');
+  var m = document.getElementById(id);
+  if (m) m.classList.remove('abierto');
 }
 
 /* ------------------------------------------------------------
-   3. VALIDACIÓN DEL FORMULARIO DE LOGIN (login.html)
+   3. CARRITO — persiste en localStorage
    ------------------------------------------------------------ */
-function validarLogin(evento) {
-  evento.preventDefault(); // evita que el formulario recargue la página
-  var correo = document.getElementById('correo').value;
-  var clave = document.getElementById('clave').value;
-  var error = document.getElementById('error-login');
-  var mensaje = '';
+var CLAVE_CARRITO = 'kr_carrito';
 
-  if (correo === '') {
-    mensaje = 'Escribe tu correo.';
-  } else if (correo.indexOf('@') === -1 || correo.indexOf('.') === -1) {
-    mensaje = 'El correo no tiene un formato válido.';
-  } else if (clave === '') {
-    mensaje = 'Escribe tu contraseña.';
-  } else if (clave.length < 6) {
-    mensaje = 'La contraseña debe tener al menos 6 caracteres.';
+function leerCarrito() {
+  try {
+    return JSON.parse(localStorage.getItem(CLAVE_CARRITO)) || [];
+  } catch (e) {
+    return [];
   }
+}
+function guardarCarrito(carrito) {
+  localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
+}
 
-  if (mensaje !== '') {
-    error.textContent = mensaje;
-    return false;
+// suma total de unidades en el carrito
+function cantidadTotal(carrito) {
+  var n = 0;
+  for (var i = 0; i < carrito.length; i++) {
+    n = n + carrito[i].cant;
   }
-  error.textContent = '';
+  return n;
+}
+
+// muestra el número de items en el contador del encabezado (todas las páginas)
+function actualizarContador() {
+  var contador = document.getElementById('contador-pedido');
+  if (contador === null) return;
+  var total = cantidadTotal(leerCarrito());
+  contador.textContent = total;
+  contador.style.display = total > 0 ? 'inline-flex' : 'none';
+}
+
+// agrega un plato al carrito (agrupa por nombre y suma cantidad)
+function agregarAlPedido(nombre, precio) {
+  var carrito = leerCarrito();
+  var encontrado = false;
+  for (var i = 0; i < carrito.length; i++) {
+    if (carrito[i].nombre === nombre) {
+      carrito[i].cant = carrito[i].cant + 1;
+      encontrado = true;
+    }
+  }
+  if (encontrado === false) {
+    carrito.push({ nombre: nombre, precio: precio, cant: 1 });
+  }
+  guardarCarrito(carrito);
+  actualizarContador();
+
+  var texto = document.getElementById('modal-texto');
+  if (texto !== null) {
+    texto.textContent = 'Agregaste "' + nombre + '" a tu pedido. Llevas ' +
+      cantidadTotal(carrito) + ' plato(s).';
+  }
   abrirModal('modal-ok');
-  return true;
+}
+
+// quita un plato del carrito (desde el checkout)
+function quitarDelCarrito(nombre) {
+  var carrito = leerCarrito();
+  var nuevo = [];
+  for (var i = 0; i < carrito.length; i++) {
+    if (carrito[i].nombre !== nombre) {
+      nuevo.push(carrito[i]);
+    }
+  }
+  guardarCarrito(nuevo);
+  actualizarContador();
+  pintarCarrito();
 }
 
 /* ------------------------------------------------------------
-   4. VALIDACIÓN DEL REGISTRO (registrar.html)
+   4. MENÚ / OFERTAS — filtros por categoría
    ------------------------------------------------------------ */
-// se llama en cada tecla para avisar si las contraseñas no coinciden
-function verificarClaves() {
-  var clave = document.getElementById('clave').value;
-  var repetir = document.getElementById('repetir').value;
-  var aviso = document.getElementById('error-repetir');
-  if (repetir !== '' && clave !== repetir) {
-    aviso.textContent = 'Las contraseñas no coinciden.';
-  } else {
-    aviso.textContent = '';
-  }
-}
-
-function validarRegistro(evento) {
-  evento.preventDefault();
-  var nombre = document.getElementById('nombre').value;
-  var correo = document.getElementById('correo').value;
-  var clave = document.getElementById('clave').value;
-  var repetir = document.getElementById('repetir').value;
-  var terminos = document.getElementById('terminos').checked;
-  var error = document.getElementById('error-registro');
-  var mensaje = '';
-
-  if (nombre === '') {
-    mensaje = 'Escribe tu nombre.';
-  } else if (correo.indexOf('@') === -1 || correo.indexOf('.') === -1) {
-    mensaje = 'El correo no tiene un formato válido.';
-  } else if (clave.length < 6) {
-    mensaje = 'La contraseña debe tener al menos 6 caracteres.';
-  } else if (clave !== repetir) {
-    mensaje = 'Las contraseñas no coinciden.';
-  } else if (terminos === false) {
-    mensaje = 'Debes aceptar los términos para crear tu cuenta.';
-  }
-
-  if (mensaje !== '') {
-    error.textContent = mensaje;
-    return false;
-  }
-  error.textContent = '';
-  // saludo personalizado en el modal
-  document.getElementById('modal-nombre').textContent = nombre;
-  abrirModal('modal-ok');
-  return true;
-}
-
-/* ------------------------------------------------------------
-   5. MENÚ / OFERTAS — filtros y "añadir al pedido"
-   ------------------------------------------------------------ */
-// arreglo que guarda lo que el usuario va agregando
-var pedidoActual = [];
-
 function filtrarPlatos(categoria, boton) {
   var platos = document.getElementsByClassName('plato');
-  // recorre todas las tarjetas y muestra/oculta según la categoría
   for (var i = 0; i < platos.length; i++) {
     var cat = platos[i].getAttribute('data-categoria');
     if (categoria === 'todos' || cat === categoria) {
@@ -127,7 +120,6 @@ function filtrarPlatos(categoria, boton) {
       platos[i].style.display = 'none';
     }
   }
-  // marca el botón activo
   var filtros = document.getElementsByClassName('filtro');
   for (var j = 0; j < filtros.length; j++) {
     filtros[j].classList.remove('activo');
@@ -135,41 +127,35 @@ function filtrarPlatos(categoria, boton) {
   boton.classList.add('activo');
 }
 
-function agregarAlPedido(nombre, precio) {
-  pedidoActual.push({ nombre: nombre, precio: precio });
-  // actualiza el contador visible en el encabezado
-  var contador = document.getElementById('contador-pedido');
-  if (contador !== null) {
-    contador.textContent = pedidoActual.length;
-    contador.style.display = 'inline-flex';
-  }
-  // muestra confirmación en la ventana flotante
-  var texto = document.getElementById('modal-texto');
-  if (texto !== null) {
-    texto.textContent = 'Agregaste "' + nombre + '" a tu rescate. Llevas ' +
-      pedidoActual.length + ' plato(s).';
-  }
-  abrirModal('modal-ok');
-}
-
 /* ------------------------------------------------------------
-   6. FORMULARIO DE PEDIDO (form_pedido.html)
+   5. CHECKOUT (form_pedido.html) — pinta el carrito y confirma
    ------------------------------------------------------------ */
-function calcularTotal() {
-  var select = document.getElementById('plato');
-  var cantidad = document.getElementById('cantidad').value;
-  // el precio viaja en el atributo data-precio de la opción elegida
-  var opcion = select.options[select.selectedIndex];
-  var precio = Number(opcion.getAttribute('data-precio'));
-  var cant = Number(cantidad);
-  if (cant < 1 || isNaN(cant)) {
-    cant = 1;
-  }
-  var total = precio * cant;
+function pintarCarrito() {
+  var cont = document.getElementById('carrito-items');
+  if (cont === null) return; // no estamos en el checkout
+  var carrito = leerCarrito();
+  var vacio = document.getElementById('carrito-vacio');
+  var total = 0;
 
-  document.getElementById('res-plato').textContent = opcion.text;
-  document.getElementById('res-cantidad').textContent = cant;
-  document.getElementById('res-unitario').textContent = 'S/ ' + precio.toFixed(2);
+  cont.innerHTML = '';
+  if (carrito.length === 0) {
+    if (vacio) vacio.style.display = 'block';
+  } else {
+    if (vacio) vacio.style.display = 'none';
+    for (var i = 0; i < carrito.length; i++) {
+      var it = carrito[i];
+      var sub = it.precio * it.cant;
+      total = total + sub;
+      var fila = document.createElement('div');
+      fila.className = 'resumen__linea';
+      fila.innerHTML =
+        '<span>' + it.nombre + ' <b>x' + it.cant + '</b></span>' +
+        '<span>S/ ' + sub.toFixed(2) +
+        ' <button type="button" class="resumen__quitar" title="Quitar" ' +
+        'onclick="quitarDelCarrito(\'' + it.nombre.replace(/'/g, "\\'") + '\')">&times;</button></span>';
+      cont.appendChild(fila);
+    }
+  }
   document.getElementById('res-total').textContent = 'S/ ' + total.toFixed(2);
 }
 
@@ -178,7 +164,12 @@ function enviarPedido(evento) {
   var nombre = document.getElementById('cliente').value;
   var telefono = document.getElementById('telefono').value;
   var error = document.getElementById('error-pedido');
+  var carrito = leerCarrito();
 
+  if (carrito.length === 0) {
+    error.textContent = 'Tu carrito está vacío. Agrega platos desde el menú.';
+    return false;
+  }
   if (nombre === '') {
     error.textContent = 'Escribe tu nombre.';
     return false;
@@ -189,120 +180,24 @@ function enviarPedido(evento) {
   }
   error.textContent = '';
 
-  // confirmación antes de registrar el pedido
   var seguro = confirm('¿Confirmas tu pedido de rescate, ' + nombre + '?');
   if (seguro === true) {
     document.getElementById('modal-texto').textContent =
       '¡Gracias, ' + nombre + '! Tu pedido de rescate quedó registrado. ' +
       'Te esperamos para recogerlo.';
+    // vaciar el carrito tras confirmar
+    guardarCarrito([]);
+    actualizarContador();
+    pintarCarrito();
     abrirModal('modal-ok');
   }
   return seguro;
 }
 
 /* ------------------------------------------------------------
-   7. TABLA DE PEDIDOS REALIZADOS (pedidos.html)
-   ------------------------------------------------------------ */
-// datos de ejemplo (arreglo de objetos) que se pintan en la tabla con el DOM
-var pedidos = [
-  { id: 'KR-1042', cliente: 'María Salas',   plato: 'French Toast',            cant: 2, total: 24.0, estado: 'listo' },
-  { id: 'KR-1043', cliente: 'Diego Rojas',   plato: 'Butifarra',               cant: 1, total: 12.0, estado: 'pendiente' },
-  { id: 'KR-1044', cliente: 'Lucía Fernández', plato: 'Bowl de Yogurt',        cant: 3, total: 33.0, estado: 'entregado' },
-  { id: 'KR-1045', cliente: 'Carlos Medina', plato: 'Panqueques de Pistacho',  cant: 1, total: 15.6, estado: 'pendiente' },
-  { id: 'KR-1046', cliente: 'Ana Torres',    plato: 'Media Luna Jamón y Queso', cant: 4, total: 28.8, estado: 'listo' }
-];
-
-// dibuja las filas de la tabla a partir del arreglo
-function pintarPedidos(lista) {
-  var cuerpo = document.getElementById('tbody-pedidos');
-  cuerpo.innerHTML = '';
-  for (var i = 0; i < lista.length; i++) {
-    var p = lista[i];
-    var fila = document.createElement('tr');
-    fila.innerHTML =
-      '<td>' + p.id + '</td>' +
-      '<td>' + p.cliente + '</td>' +
-      '<td>' + p.plato + '</td>' +
-      '<td>' + p.cant + '</td>' +
-      '<td>S/ ' + p.total.toFixed(2) + '</td>' +
-      '<td><span class="estado estado--' + p.estado + '">' + p.estado + '</span></td>';
-    cuerpo.appendChild(fila);
-  }
-  // actualiza los indicadores de arriba
-  document.getElementById('kpi-total').textContent = lista.length;
-  var monto = 0;
-  var platos = 0;
-  for (var j = 0; j < lista.length; j++) {
-    monto = monto + lista[j].total;
-    platos = platos + lista[j].cant;
-  }
-  document.getElementById('kpi-monto').textContent = 'S/ ' + monto.toFixed(2);
-  document.getElementById('kpi-platos').textContent = platos;
-}
-
-// filtra la tabla por estado (se llama con onchange del select)
-function filtrarEstado(valor) {
-  if (valor === 'todos') {
-    pintarPedidos(pedidos);
-    return;
-  }
-  var filtrados = [];
-  for (var i = 0; i < pedidos.length; i++) {
-    if (pedidos[i].estado === valor) {
-      filtrados.push(pedidos[i]);
-    }
-  }
-  pintarPedidos(filtrados);
-}
-
-// agrega un pedido nuevo pidiendo los datos con prompt (entrada de datos)
-function agregarPedido() {
-  var cliente = prompt('Nombre del cliente:');
-  if (cliente === null || cliente === '') {
-    return;
-  }
-  var plato = prompt('Plato rescatado:');
-  if (plato === null || plato === '') {
-    return;
-  }
-  var cant = Number(prompt('Cantidad:'));
-  if (isNaN(cant) || cant < 1) {
-    cant = 1;
-  }
-  var precioUnit = Number(prompt('Precio unitario (S/):'));
-  if (isNaN(precioUnit) || precioUnit < 0) {
-    precioUnit = 0;
-  }
-  var nuevo = {
-    id: 'KR-' + (1047 + pedidos.length - 5),
-    cliente: cliente,
-    plato: plato,
-    cant: cant,
-    total: precioUnit * cant,
-    estado: 'pendiente'
-  };
-  pedidos.push(nuevo);
-  pintarPedidos(pedidos);
-  alert('Pedido ' + nuevo.id + ' agregado correctamente.');
-}
-
-// se ejecuta cuando la página de pedidos termina de cargar
-function iniciarPedidos() {
-  pintarPedidos(pedidos);
-}
-
-/* ------------------------------------------------------------
-   8. ARRANQUE — se ejecuta al terminar de cargar cada página.
-   Detecta qué página es (según los elementos presentes) e
-   inicia lo que corresponda. Así el mismo archivo sirve a todas.
+   6. ARRANQUE
    ------------------------------------------------------------ */
 document.addEventListener('DOMContentLoaded', function () {
-  // página de pedidos: si existe la tabla, la pinta con los datos
-  if (document.getElementById('tbody-pedidos') !== null) {
-    iniciarPedidos();
-  }
-  // formulario de pedido: si existe el resumen, calcula el total inicial
-  if (document.getElementById('res-total') !== null) {
-    calcularTotal();
-  }
+  actualizarContador();
+  pintarCarrito(); // solo hace algo en el checkout
 });

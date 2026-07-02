@@ -12,7 +12,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,700;0,800;1,800&family=Gochi+Hand&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/estilos.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/main.js" defer></script>
+  <script src="js/auth.js" defer></script>
 </head>
 <body>
 
@@ -29,8 +31,7 @@
         <a href="menu.html">Menú</a>
         <a href="ofertas.html">Ofertas</a>
         <a href="form_pedido.html" class="activo" aria-current="page">Pedir <span id="contador-pedido" class="insignia insignia--vino" style="display:none">0</span></a>
-        <a href="pedidos.html">Pedidos</a>
-        <a class="nav__cta" href="login.html">Ingresar</a>
+        <a class="nav__cta" id="auth-cta" href="login.html">Ingresar</a>
       </nav>
 
       <button class="burger" id="burger" type="button" aria-label="Abrir menú" aria-expanded="false" onclick="alternarMenu()">
@@ -49,7 +50,7 @@
           <span class="mano">Arma tu rescate</span>
           <h1>Formulario de pedido</h1>
           <p>
-            Elige un plato próximo a vencer, dinos cuántos quieres y a qué hora pasas por él.
+            Revisa los platos que agregaste, déjanos tus datos y elige a qué hora pasas por ellos.
             Reservar toma segundos y le das una segunda oportunidad a comida rica.
           </p>
         </div>
@@ -76,28 +77,17 @@
             <input id="telefono" name="telefono" type="tel" placeholder="Ej. 902 793 505" autocomplete="tel" />
           </div>
 
-          <div class="campo campo--full">
-            <label for="plato">Plato a rescatar</label>
-            <select id="plato" name="plato" onchange="calcularTotal()">
-              <option data-precio="12.00">French Toast (S/ 12.00)</option>
-              <option data-precio="12.00">Butifarra (S/ 12.00)</option>
-              <option data-precio="13.00">Panqueques de Pistacho (S/ 13.00)</option>
-              <option data-precio="11.00">Bowl de Yogurt (S/ 11.00)</option>
-              <option data-precio="16.20">Divina Trucha (S/ 16.20)</option>
-              <option data-precio="12.60">Salchicha AQP (S/ 12.60)</option>
-              <option data-precio="6.00">Media Luna Jamón y Queso (S/ 6.00)</option>
-              <option data-precio="6.60">Latte (S/ 6.60)</option>
-              <option data-precio="4.50">Brownie (S/ 4.50)</option>
-            </select>
-          </div>
-
-          <div class="campo">
-            <label for="cantidad">Cantidad</label>
-            <input id="cantidad" name="cantidad" type="number" min="1" value="1" oninput="calcularTotal()" />
-          </div>
           <div class="campo">
             <label for="hora">Hora de recojo</label>
             <input id="hora" name="hora" type="time" value="18:00" />
+          </div>
+          <div class="campo">
+            <label for="metodo">Cómo pagas</label>
+            <select id="metodo" name="metodo">
+              <option value="local">Pago en el local</option>
+              <option value="yape">Yape / Plin</option>
+              <option value="tarjeta">Tarjeta al recoger</option>
+            </select>
           </div>
 
           <div class="campo campo--full">
@@ -120,22 +110,15 @@
 
       <!-- DERECHA: resumen -->
       <aside class="resumen">
-        <h3>Tu rescate</h3>
-        <div class="resumen__linea">
-          <span>Plato</span>
-          <span id="res-plato"></span>
-        </div>
-        <div class="resumen__linea">
-          <span>Cantidad</span>
-          <span id="res-cantidad"></span>
-        </div>
-        <div class="resumen__linea">
-          <span>Precio unitario</span>
-          <span id="res-unitario"></span>
-        </div>
+        <h3>Tu pedido</h3>
+        <div id="carrito-items"></div>
+        <p class="formulario__nota" id="carrito-vacio" style="display:none">
+          Tu carrito está vacío. Ve al <a href="menu.html">menú</a> o a las
+          <a href="ofertas.html">ofertas</a> y añade tus rescates.
+        </p>
         <div class="resumen__total">
           <span>Total</span>
-          <span class="resumen__monto" id="res-total"></span>
+          <span class="resumen__monto" id="res-total">S/ 0.00</span>
         </div>
         <p class="formulario__nota">
           Cada rescate evita que buena comida termine en la basura. Gracias por sumarte.
@@ -159,7 +142,6 @@
         <a href="index.html">Inicio</a>
         <a href="menu.html">Menú de comidas</a>
         <a href="ofertas.html">Ofertas especiales</a>
-        <a href="pedidos.html">Pedidos realizados</a>
       </div>
       <div>
         <h4>Tu cuenta</h4>
