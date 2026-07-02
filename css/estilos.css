@@ -1,35 +1,16 @@
-/* ============================================================
-   KULTO RESCATA — Hoja de estilos única del sitio
-   Taller de Programación Web · APF3 · UTP
-   Tema: reducción del desperdicio de alimentos.
-
-   Solo se usan conceptos del sílabo (Unidad 1 y 2):
-   - Selectores, atributos y valores
-   - Tipografía, fuentes e íconos (archivos externos)
-   - Flexbox
-   - Grid Layout
-   - Animaciones, transiciones y transformaciones
-   - Diseño responsivo con Media Queries
-
-   Identidad de marca portada de Kulto Café Club:
-   vino #7E1A26 / crema #F4ECE0 / tinta #0E0E0E,
-   + acentos "eco" (verde rescate) y "ámbar" (vence pronto).
-   ============================================================ */
-
-/* ---------- 1. Variables de color, tipografía y medidas ---------- */
 :root {
-  --crema: #f4ece0;          /* fondo principal (papel) */
-  --tinta: #0e0e0e;          /* texto principal */
-  --vino: #7e1a26;           /* color de marca: fondos y botones */
-  --vino-texto: #6b1620;     /* vino usado como texto sobre crema */
+  --crema: #f4ece0;
+  --tinta: #0e0e0e;
+  --vino: #7e1a26;
+  --vino-texto: #6b1620;
   --crema-sobre-vino: #f4ece0;
   --tinta-suave: rgba(14, 14, 14, 0.66);
   --crema-suave: rgba(244, 236, 224, 0.80);
   --linea: rgba(14, 14, 14, 0.16);
 
-  --eco: #2f6b4f;            /* verde rescate (sostenibilidad) */
+  --eco: #2f6b4f;
   --eco-oscuro: #24503b;
-  --ambar: #b5701a;          /* "vence pronto" / urgencia */
+  --ambar: #b5701a;
   --ambar-relleno: #e8a23d;
 
   --fuente-titulo: 'Archivo', system-ui, sans-serif;
@@ -42,7 +23,6 @@
   --sombra: 0 14px 30px rgba(14, 14, 14, 0.14);
 }
 
-/* ---------- 2. Reset y base ---------- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -71,7 +51,6 @@ ul {
   list-style: none;
 }
 
-/* Roles tipográficos */
 .titulo {
   font-family: var(--fuente-titulo);
   font-weight: 800;
@@ -85,7 +64,6 @@ ul {
   line-height: 1;
 }
 
-/* Contenedor centrado reutilizable */
 .contenedor {
   width: 100%;
   max-width: var(--ancho-max);
@@ -94,15 +72,12 @@ ul {
   padding-right: var(--pad);
 }
 
-/* Columnas de texto/marca dentro de los grids: min-width:0 evita que un
-   contenido largo desborde la celda del grid. */
 .hero__texto,
 .portada__texto,
 .pie__marca {
   min-width: 0;
 }
 
-/* ---------- 3. Botones ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -168,7 +143,6 @@ ul {
   height: 18px;
 }
 
-/* Etiquetas / insignias */
 .insignia {
   display: inline-flex;
   align-items: center;
@@ -195,9 +169,6 @@ ul {
   color: var(--crema-sobre-vino);
 }
 
-/* ============================================================
-   4. ENCABEZADO — barra vino fija con menú responsivo
-   ============================================================ */
 .encabezado {
   position: sticky;
   top: 0;
@@ -273,7 +244,7 @@ ul {
 .nav__cta:hover {
   transform: rotate(-1.5deg) scale(1.04);
 }
-/* botón hamburguesa (se muestra solo en móvil) */
+
 .burger {
   display: none;
   background: none;
@@ -287,9 +258,6 @@ ul {
   height: 26px;
 }
 
-/* ============================================================
-   5. HERO — portada a sangre en vino, dos zonas (texto | mascota)
-   ============================================================ */
 .hero {
   position: relative;
   background: var(--vino);
@@ -346,7 +314,6 @@ ul {
   animation: entrar-arte 1s ease both;
 }
 
-/* franja de datos al pie del hero */
 .hero__franja {
   border-top: 2px solid rgba(244, 236, 224, 0.22);
   background: rgba(0, 0, 0, 0.12);
@@ -370,9 +337,6 @@ ul {
   color: var(--crema-sobre-vino);
 }
 
-/* ============================================================
-   6. PORTADA DE PÁGINA INTERNA (título grande sobre vino)
-   ============================================================ */
 .portada {
   background: var(--vino);
   color: var(--crema-sobre-vino);
@@ -418,9 +382,6 @@ ul {
   filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.28));
 }
 
-/* ============================================================
-   7. SECCIONES sobre crema
-   ============================================================ */
 .seccion {
   padding: clamp(48px, 8vw, 96px) 0;
 }
@@ -455,7 +416,6 @@ ul {
   margin: 12px auto 0;
 }
 
-/* --- Grid de estadísticas (misión) --- */
 .stats {
   max-width: var(--ancho-max);
   margin: 0 auto;
@@ -490,7 +450,6 @@ ul {
   color: var(--tinta-suave);
 }
 
-/* --- Grid "cómo funciona" (pasos) --- */
 .pasos {
   max-width: var(--ancho-max);
   margin: 0 auto;
@@ -531,9 +490,6 @@ ul {
   font-size: 0.98rem;
 }
 
-/* ============================================================
-   8. TARJETAS DE PLATOS (menú y ofertas) — Grid + Flexbox
-   ============================================================ */
 .filtros {
   max-width: var(--ancho-max);
   margin: 0 auto clamp(20px, 3vw, 32px);
@@ -590,7 +546,7 @@ ul {
   transform: translateY(-6px);
   box-shadow: var(--sombra);
 }
-/* "foto" del plato resuelta con CSS (sin stock): bloque de color + inicial */
+
 .plato__foto {
   position: relative;
   aspect-ratio: 16 / 10;
@@ -660,15 +616,12 @@ ul {
   margin-top: 8px;
 }
 
-/* ============================================================
-   9. FORMULARIOS (login, registro, pedido) — Grid + Flexbox
-   ============================================================ */
 .acceso {
   min-height: 72vh;
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
 }
-/* panel de marca (izquierda) */
+
 .acceso__marca {
   background: var(--vino);
   color: var(--crema-sobre-vino);
@@ -702,7 +655,7 @@ ul {
   transform: rotate(-4deg);
   filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.3));
 }
-/* zona del formulario (derecha) */
+
 .acceso__form {
   padding: clamp(32px, 5vw, 64px) var(--pad);
   display: flex;
@@ -731,7 +684,7 @@ ul {
   color: var(--tinta-suave);
   margin-bottom: 22px;
 }
-/* filas de campos en grid */
+
 .campos {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -777,7 +730,7 @@ ul {
   resize: vertical;
   min-height: 90px;
 }
-/* mensaje de error por campo (lo activa JS) */
+
 .campo__error {
   font-size: 0.8rem;
   color: var(--vino-texto);
@@ -818,7 +771,6 @@ ul {
   text-decoration: underline;
 }
 
-/* resumen del pedido (columna lateral en form_pedido) */
 .pedido-layout {
   max-width: var(--ancho-max);
   margin: 0 auto;
@@ -869,7 +821,7 @@ ul {
   font-size: 2rem;
   color: var(--eco);
 }
-/* botón para quitar un plato del carrito en el checkout */
+
 .resumen__quitar {
   background: none;
   border: 0;
@@ -885,9 +837,6 @@ ul {
   transform: scale(1.25);
 }
 
-/* ============================================================
-   10. TABLA DE PEDIDOS
-   ============================================================ */
 .tabla-toolbar {
   max-width: var(--ancho-max);
   margin: 0 auto clamp(18px, 3vw, 28px);
@@ -978,9 +927,6 @@ ul {
   color: var(--tinta-suave);
 }
 
-/* ============================================================
-   11. VENTANA FLOTANTE (modal) — se abre con JavaScript
-   ============================================================ */
 .modal {
   position: fixed;
   inset: 0;
@@ -1033,9 +979,6 @@ ul {
   margin-bottom: 20px;
 }
 
-/* ============================================================
-   12. PIE DE PÁGINA
-   ============================================================ */
 .pie {
   background: var(--tinta);
   color: var(--crema-suave);
@@ -1108,7 +1051,6 @@ ul {
   color: var(--crema-suave);
 }
 
-/* botón flotante de WhatsApp */
 .wa-flotante {
   position: fixed;
   right: 18px;
@@ -1133,9 +1075,6 @@ ul {
   height: 30px;
 }
 
-/* ============================================================
-   13. ANIMACIONES Y TRANSFORMACIONES (@keyframes)
-   ============================================================ */
 @keyframes entrar-arte {
   from {
     opacity: 0;
@@ -1174,7 +1113,7 @@ ul {
     opacity: 1;
   }
 }
-/* latido para insignias de urgencia "vence pronto" */
+
 @keyframes latir {
   0%,
   100% {
@@ -1187,7 +1126,7 @@ ul {
 .insignia--vence {
   animation: latir 1.4s ease-in-out infinite;
 }
-/* brillo diagonal para tarjetas de oferta */
+
 .oferta {
   position: relative;
   overflow: hidden;
@@ -1217,7 +1156,7 @@ ul {
     left: 130%;
   }
 }
-/* respeta a quien prefiere menos movimiento */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   .insignia--vence,
@@ -1229,9 +1168,6 @@ ul {
   }
 }
 
-/* ============================================================
-   14. DISEÑO RESPONSIVO (Media Queries)
-   ============================================================ */
 @media (max-width: 980px) {
   .hero__inner,
   .portada__inner {
@@ -1264,7 +1200,7 @@ ul {
     grid-template-columns: 1fr;
   }
   .acceso__marca {
-    display: none; /* en móvil el formulario ocupa todo */
+    display: none;
   }
   .pasos {
     grid-template-columns: 1fr;
@@ -1272,7 +1208,7 @@ ul {
 }
 
 @media (max-width: 640px) {
-  /* menú responsivo: se oculta y el JS lo despliega con la hamburguesa */
+
   .nav {
     display: none;
     position: absolute;

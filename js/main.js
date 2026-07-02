@@ -1,21 +1,3 @@
-/* ============================================================
-   KULTO RESCATA — JavaScript de la interfaz
-   Taller de Programación Web · UTP
-
-   Responsabilidades:
-   - Menú responsivo (hamburguesa)
-   - Ventanas flotantes (modales)
-   - Filtros del menú
-   - Carrito de pedido persistente (se guarda en el navegador con
-     localStorage, así lo que agregas NO se pierde al cambiar de página)
-   - Checkout: pintar el carrito y confirmar el pedido
-
-   La autenticación (login / registro) vive en js/auth.js (Supabase).
-   ============================================================ */
-
-/* ------------------------------------------------------------
-   1. MENÚ RESPONSIVO
-   ------------------------------------------------------------ */
 function alternarMenu() {
   var nav = document.getElementById('nav');
   var boton = document.getElementById('burger');
@@ -23,9 +5,6 @@ function alternarMenu() {
   boton.setAttribute('aria-expanded', nav.classList.contains('abierto'));
 }
 
-/* ------------------------------------------------------------
-   2. VENTANAS FLOTANTES (modales)
-   ------------------------------------------------------------ */
 function abrirModal(id) {
   var m = document.getElementById(id);
   if (m) m.classList.add('abierto');
@@ -35,9 +14,6 @@ function cerrarModal(id) {
   if (m) m.classList.remove('abierto');
 }
 
-/* ------------------------------------------------------------
-   3. CARRITO — persiste en localStorage
-   ------------------------------------------------------------ */
 var CLAVE_CARRITO = 'kr_carrito';
 
 function leerCarrito() {
@@ -51,7 +27,6 @@ function guardarCarrito(carrito) {
   localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
 }
 
-// suma total de unidades en el carrito
 function cantidadTotal(carrito) {
   var n = 0;
   for (var i = 0; i < carrito.length; i++) {
@@ -60,7 +35,6 @@ function cantidadTotal(carrito) {
   return n;
 }
 
-// muestra el número de items en el contador del encabezado (todas las páginas)
 function actualizarContador() {
   var contador = document.getElementById('contador-pedido');
   if (contador === null) return;
@@ -69,7 +43,6 @@ function actualizarContador() {
   contador.style.display = total > 0 ? 'inline-flex' : 'none';
 }
 
-// agrega un plato al carrito (agrupa por nombre y suma cantidad)
 function agregarAlPedido(nombre, precio) {
   var carrito = leerCarrito();
   var encontrado = false;
@@ -93,7 +66,6 @@ function agregarAlPedido(nombre, precio) {
   abrirModal('modal-ok');
 }
 
-// quita un plato del carrito (desde el checkout)
 function quitarDelCarrito(nombre) {
   var carrito = leerCarrito();
   var nuevo = [];
@@ -107,9 +79,6 @@ function quitarDelCarrito(nombre) {
   pintarCarrito();
 }
 
-/* ------------------------------------------------------------
-   4. MENÚ / OFERTAS — filtros por categoría
-   ------------------------------------------------------------ */
 function filtrarPlatos(categoria, boton) {
   var platos = document.getElementsByClassName('plato');
   for (var i = 0; i < platos.length; i++) {
@@ -127,12 +96,9 @@ function filtrarPlatos(categoria, boton) {
   boton.classList.add('activo');
 }
 
-/* ------------------------------------------------------------
-   5. CHECKOUT (form_pedido.html) — pinta el carrito y confirma
-   ------------------------------------------------------------ */
 function pintarCarrito() {
   var cont = document.getElementById('carrito-items');
-  if (cont === null) return; // no estamos en el checkout
+  if (cont === null) return;
   var carrito = leerCarrito();
   var vacio = document.getElementById('carrito-vacio');
   var total = 0;
@@ -182,11 +148,10 @@ function enviarPedido(evento) {
 
   var seguro = confirm('¿Confirmas tu pedido de rescate, ' + nombre + '?');
   if (seguro === true) {
-    guardarPedido(nombre, telefono, carrito); // lo guarda en "Mis pedidos"
+    guardarPedido(nombre, telefono, carrito);
     document.getElementById('modal-texto').textContent =
       '¡Gracias, ' + nombre + '! Tu pedido de rescate quedó registrado. ' +
       'Lo puedes ver en Mis pedidos. Te esperamos para recogerlo.';
-    // vaciar el carrito tras confirmar
     guardarCarrito([]);
     actualizarContador();
     pintarCarrito();
@@ -195,14 +160,8 @@ function enviarPedido(evento) {
   return seguro;
 }
 
-/* ------------------------------------------------------------
-   7. MIS PEDIDOS (pedidos.html) — tabla de pedidos realizados
-   Los pedidos se guardan en el navegador (localStorage) al confirmar
-   el checkout. Cada quien ve SOLO sus propios pedidos (privado).
-   ------------------------------------------------------------ */
 var CLAVE_PEDIDOS = 'kr_pedidos';
 
-// pedidos de ejemplo (se muestran solo si aún no has hecho ninguno)
 var PEDIDOS_DEMO = [
   { id: 'KR-1042', cliente: 'María Salas', items: [{ nombre: 'French Toast', cant: 2 }], total: 24.0, fecha: '01/07/2026', estado: 'listo' },
   { id: 'KR-1043', cliente: 'Diego Rojas', items: [{ nombre: 'Butifarra', cant: 1 }], total: 12.0, fecha: '01/07/2026', estado: 'pendiente' },
@@ -239,7 +198,6 @@ function guardarPedido(cliente, telefono, items) {
   guardarPedidos(pedidos);
 }
 
-// pinta la tabla de "Mis pedidos" (usa los reales o, si no hay, los de ejemplo)
 function pintarMisPedidos(filtro) {
   var cuerpo = document.getElementById('tbody-pedidos');
   if (cuerpo === null) return;
@@ -272,11 +230,9 @@ function pintarMisPedidos(filtro) {
     cuerpo.appendChild(fila);
   }
 
-  // aviso de "son ejemplos" si aún no hay pedidos reales
   var aviso = document.getElementById('pedidos-demo-aviso');
   if (aviso !== null) aviso.style.display = reales.length > 0 ? 'none' : 'block';
 
-  // indicadores (sobre todos los pedidos base, sin filtrar)
   var monto = 0, platos = 0;
   for (var m = 0; m < base.length; m++) {
     monto = monto + base[m].total;
@@ -299,11 +255,8 @@ function vaciarPedidos() {
   }
 }
 
-/* ------------------------------------------------------------
-   8. ARRANQUE
-   ------------------------------------------------------------ */
 document.addEventListener('DOMContentLoaded', function () {
   actualizarContador();
-  pintarCarrito();     // solo hace algo en el checkout
-  pintarMisPedidos();  // solo hace algo en pedidos.html
+  pintarCarrito();
+  pintarMisPedidos();
 });

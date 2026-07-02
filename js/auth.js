@@ -1,40 +1,22 @@
-/* ============================================================
-   KULTO RESCATA — Autenticación con Supabase
-   Taller de Programación Web · UTP
-
-   Login y registro reales contra el proyecto Supabase
-   "Taller de Programacion". Usa el SDK oficial supabase-js
-   (cargado por CDN en el <head> antes de este archivo).
-
-   La anon key es pública por diseño (segura para el navegador).
-   ============================================================ */
-
 var SUPABASE_URL = 'https://tntqfevzuzczxvallbsj.supabase.co';
 var SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRudHFmZXZ6dXpjenh2YWxsYnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzMwODEsImV4cCI6MjA5ODU0OTA4MX0.y_VFVwN7l-RN_nI7MFezFmCPoh6WG-Tiunbq1Dx6ZPw';
 
-// cliente Supabase (window.supabase lo expone el CDN)
 var sb = window.supabase
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
 
-// traduce los mensajes de error de Supabase a español claro
 function traducirError(mensaje) {
   var m = (mensaje || '').toLowerCase();
-  if (m.indexOf('invalid login credentials') !== -1)
-    return 'Correo o contraseña incorrectos.';
-  if (m.indexOf('email not confirmed') !== -1)
-    return 'Tu correo aún no está confirmado. Revisa tu bandeja de entrada.';
+  if (m.indexOf('invalid login credentials') !== -1) return 'Correo o contraseña incorrectos.';
   if (m.indexOf('already registered') !== -1 || m.indexOf('already been registered') !== -1)
     return 'Ese correo ya tiene una cuenta. Inicia sesión.';
   if (m.indexOf('password') !== -1 && m.indexOf('6') !== -1)
     return 'La contraseña debe tener al menos 6 caracteres.';
-  if (m.indexOf('invalid') !== -1 && m.indexOf('email') !== -1)
-    return 'El correo no es válido.';
+  if (m.indexOf('invalid') !== -1 && m.indexOf('email') !== -1) return 'El correo no es válido.';
   return mensaje || 'Ocurrió un error. Intenta de nuevo.';
 }
 
-/* ---------- INICIAR SESIÓN (login.html) ---------- */
 async function iniciarLogin(evento) {
   evento.preventDefault();
   var correo = document.getElementById('correo').value.trim();
@@ -68,7 +50,6 @@ async function iniciarLogin(evento) {
   return false;
 }
 
-/* ---------- REGISTRO (registrar.html) ---------- */
 function verificarClaves() {
   var clave = document.getElementById('clave').value;
   var repetir = document.getElementById('repetir').value;
@@ -95,15 +76,7 @@ async function registrarUsuario(evento) {
   if (sb === null) { error.textContent = 'No se pudo cargar el sistema de autenticación.'; return false; }
 
   error.textContent = 'Creando tu cuenta...';
-  var res = await sb.auth.signUp({
-    email: correo,
-    password: clave,
-    options: {
-      data: { nombre: nombre },
-      // si el proyecto exige confirmar correo, el enlace vuelve a NUESTRO sitio
-      emailRedirectTo: baseSitio() + 'login.html',
-    },
-  });
+  var res = await sb.auth.signUp({ email: correo, password: clave, options: { data: { nombre: nombre } } });
   if (res.error) {
     error.textContent = traducirError(res.error.message);
     return false;
@@ -111,20 +84,17 @@ async function registrarUsuario(evento) {
   error.textContent = '';
   var texto = document.getElementById('modal-texto');
   if (res.data.session) {
-    // el proyecto no exige confirmar correo: queda logueado
     texto.textContent = '¡Bienvenido, ' + nombre + '! Tu cuenta quedó creada.';
     abrirModal('modal-ok');
     setTimeout(function () { window.location.href = 'index.html'; }, 1400);
   } else {
-    // el proyecto exige confirmar el correo antes de iniciar sesión
-    texto.innerHTML = '¡Cuenta creada, ' + nombre + '! Te enviamos un correo a <b>' +
-      correo + '</b> para confirmarla. Ábrelo, confirma y luego inicia sesión.';
+    texto.textContent = '¡Cuenta creada, ' + nombre + '! Ya puedes iniciar sesión.';
     abrirModal('modal-ok');
+    setTimeout(function () { window.location.href = 'login.html'; }, 1600);
   }
   return false;
 }
 
-/* ---------- SESIÓN EN EL ENCABEZADO (todas las páginas) ---------- */
 async function iniciarSesionHeader() {
   var cta = document.getElementById('auth-cta');
   if (cta === null || sb === null) return;
@@ -146,45 +116,4 @@ async function cerrarSesion() {
   window.location.href = 'index.html';
 }
 
-// base del sitio (hasta la última barra), sirve local y en producción
-function baseSitio() {
-  return window.location.href.replace(/[^/]*(\?.*)?(#.*)?$/, '');
-}
-
-/* ---------- CALLBACK del enlace de confirmación de correo ----------
-   Cuando el usuario vuelve del correo, Supabase agrega datos en el #hash.
-   Si hay error (ej. enlace expirado) lo mostramos claro; si trae la sesión,
-   confirmamos y entramos. Así nunca se ve el hash crudo de error. */
-async function manejarCallbackAuth() {
-  var hash = window.location.hash || '';
-  if (hash.length < 2) return;
-
-  if (hash.indexOf('error') !== -1) {
-    var params = new URLSearchParams(hash.replace(/^#/, ''));
-    var desc = params.get('error_description') || 'El enlace no es válido o expiró.';
-    desc = decodeURIComponent(desc.replace(/\+/g, ' '));
-    var mensaje = 'No se pudo confirmar tu correo: ' + desc + '. Vuelve a registrarte o inicia sesión.';
-    var destino = document.getElementById('error-login') || document.getElementById('error-registro');
-    if (destino) { destino.textContent = mensaje; } else { alert(mensaje); }
-    history.replaceState(null, '', window.location.pathname);
-    return;
-  }
-
-  if (hash.indexOf('access_token') !== -1 && sb !== null) {
-    var res = await sb.auth.getSession();
-    if (res.data.session) {
-      history.replaceState(null, '', window.location.pathname);
-      var t = document.getElementById('modal-texto');
-      if (t) {
-        t.textContent = 'Tu correo fue confirmado. ¡Bienvenido a Kulto Rescata!';
-        abrirModal('modal-ok');
-      }
-      setTimeout(function () { window.location.href = 'index.html'; }, 1500);
-    }
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-  manejarCallbackAuth();
-  iniciarSesionHeader();
-});
+document.addEventListener('DOMContentLoaded', iniciarSesionHeader);
