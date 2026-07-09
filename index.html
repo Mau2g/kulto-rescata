@@ -128,73 +128,7 @@
         <span class="mano">Rescates del día</span>
         <h2>Buenos platos a mitad de precio.</h2>
       </div>
-      <div class="grid-platos">
-        <article class="plato" data-categoria="dulce">
-          <div class="plato__foto">
-            <span class="plato__inicial">F</span>
-            <div class="plato__insignias">
-              <span class="insignia insignia--eco">Rescatado</span>
-              <span class="insignia insignia--vence">Vence hoy</span>
-            </div>
-          </div>
-          <div class="plato__cuerpo">
-            <span class="plato__nombre">French Toast</span>
-            <p class="plato__desc">Pan dorado y dulce, ofrenda de la mañana. Recién hecho, listo para rescatar.</p>
-            <div class="plato__precios">
-              <span class="plato__antes">S/ 24.00</span>
-              <span class="plato__ahora">S/ 12.00</span>
-            </div>
-            <div class="plato__pie">
-              <span class="insignia insignia--vino">-50%</span>
-              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('French Toast', 12)">Añadir</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="plato" data-categoria="salado">
-          <div class="plato__foto">
-            <span class="plato__inicial">B</span>
-            <div class="plato__insignias">
-              <span class="insignia insignia--eco">Rescatado</span>
-              <span class="insignia insignia--vence">Vence hoy</span>
-            </div>
-          </div>
-          <div class="plato__cuerpo">
-            <span class="plato__nombre">Butifarra</span>
-            <p class="plato__desc">El sánguche peruanísimo y bendito. Del mostrador a tu mano, sin desperdicio.</p>
-            <div class="plato__precios">
-              <span class="plato__antes">S/ 20.00</span>
-              <span class="plato__ahora">S/ 12.00</span>
-            </div>
-            <div class="plato__pie">
-              <span class="insignia insignia--vino">-40%</span>
-              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('Butifarra', 12)">Añadir</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="plato" data-categoria="dulce">
-          <div class="plato__foto">
-            <span class="plato__inicial">P</span>
-            <div class="plato__insignias">
-              <span class="insignia insignia--eco">Rescatado</span>
-              <span class="insignia insignia--vence">Vence mañana</span>
-            </div>
-          </div>
-          <div class="plato__cuerpo">
-            <span class="plato__nombre">Panqueques de Pistacho</span>
-            <p class="plato__desc">Un pequeño milagro para equilibrar el alma. Últimas porciones del día.</p>
-            <div class="plato__precios">
-              <span class="plato__antes">S/ 26.00</span>
-              <span class="plato__ahora">S/ 15.60</span>
-            </div>
-            <div class="plato__pie">
-              <span class="insignia insignia--vino">-40%</span>
-              <button class="btn btn--eco" type="button" onclick="agregarAlPedido('Panqueques de Pistacho', 15.6)">Añadir</button>
-            </div>
-          </div>
-        </article>
-      </div>
+      <div class="grid-platos" id="grid-destacados"></div>
       <div class="seccion__cabecera" style="margin-top: 32px; margin-bottom: 0;">
         <a class="btn btn--vino" href="menu.html">Ver el menú completo</a>
       </div>

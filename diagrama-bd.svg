@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1340 830" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+<rect x="0" y="0" width="1340" height="830" fill="#ffffff"/>
+<text x="40" y="44" font-size="23" font-weight="700" fill="#7E1A26">Base de datos — Kulto Rescata</text>
+<text x="40" y="67" font-size="13" fill="#6b7280">PostgreSQL (Supabase) · modelo normalizado: 5 tablas propias + auth.users · seguridad por fila (RLS)</text>
+<rect x="40" y="96" width="250" height="32" rx="7" fill="#64748b"/>
+<rect x="40" y="120" width="250" height="8" fill="#64748b"/>
+<text x="54" y="118" font-size="15" font-weight="700" fill="#fff">auth.users</text>
+<text x="278" y="117" font-size="11" font-style="italic" text-anchor="end" fill="#fff" opacity="0.85">Supabase Auth</text>
+<rect x="40" y="128" width="250" height="120" fill="#fff" stroke="#64748b" stroke-width="1.5"/>
+<text x="54" y="147.5" font-size="12.5" font-weight="700" fill="#1f2937">id</text>
+<text x="278" y="147.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#7E1A26">uuid  ·  PK</text>
+<line x1="40" y1="158" x2="290" y2="158" stroke="#eef0f2"/>
+<text x="54" y="177.5" font-size="12.5" font-weight="400" fill="#1f2937">email</text>
+<text x="278" y="177.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text</text>
+<line x1="40" y1="188" x2="290" y2="188" stroke="#eef0f2"/>
+<text x="54" y="207.5" font-size="12.5" font-weight="400" fill="#1f2937">user_metadata</text>
+<text x="278" y="207.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">jsonb</text>
+<line x1="40" y1="218" x2="290" y2="218" stroke="#eef0f2"/>
+<text x="54" y="237.5" font-size="12.5" font-weight="400" fill="#1f2937">created_at</text>
+<text x="278" y="237.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">timestamptz</text>
+<rect x="40" y="330" width="250" height="32" rx="7" fill="#2F6B4F"/>
+<rect x="40" y="354" width="250" height="8" fill="#2F6B4F"/>
+<text x="54" y="352" font-size="15" font-weight="700" fill="#fff">perfiles</text>
+<rect x="40" y="362" width="250" height="150" fill="#fff" stroke="#2F6B4F" stroke-width="1.5"/>
+<text x="54" y="381.5" font-size="12.5" font-weight="700" fill="#1f2937">id</text>
+<text x="278" y="381.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#7E1A26">uuid  ·  PK  ·  FK</text>
+<line x1="40" y1="392" x2="290" y2="392" stroke="#eef0f2"/>
+<text x="54" y="411.5" font-size="12.5" font-weight="400" fill="#1f2937">nombre</text>
+<text x="278" y="411.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text</text>
+<line x1="40" y1="422" x2="290" y2="422" stroke="#eef0f2"/>
+<text x="54" y="441.5" font-size="12.5" font-weight="400" fill="#1f2937">apellido</text>
+<text x="278" y="441.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text</text>
+<line x1="40" y1="452" x2="290" y2="452" stroke="#eef0f2"/>
+<text x="54" y="471.5" font-size="12.5" font-weight="400" fill="#1f2937">tipo</text>
+<text x="278" y="471.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text  ·  NN</text>
+<line x1="40" y1="482" x2="290" y2="482" stroke="#eef0f2"/>
+<text x="54" y="501.5" font-size="12.5" font-weight="400" fill="#1f2937">created_at</text>
+<text x="278" y="501.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">timestamptz  ·  NN</text>
+<rect x="360" y="96" width="270" height="32" rx="7" fill="#7E1A26"/>
+<rect x="360" y="120" width="270" height="8" fill="#7E1A26"/>
+<text x="374" y="118" font-size="15" font-weight="700" fill="#fff">pedidos</text>
+<rect x="360" y="128" width="270" height="300" fill="#fff" stroke="#7E1A26" stroke-width="1.5"/>
+<text x="374" y="147.5" font-size="12.5" font-weight="700" fill="#1f2937">id</text>
+<text x="618" y="147.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#7E1A26">bigint  ·  PK</text>
+<line x1="360" y1="158" x2="630" y2="158" stroke="#eef0f2"/>
+<text x="374" y="177.5" font-size="12.5" font-weight="700" fill="#1f2937">user_id</text>
+<text x="618" y="177.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#2F6B4F">uuid  ·  FK  ·  NN</text>
+<line x1="360" y1="188" x2="630" y2="188" stroke="#eef0f2"/>
+<text x="374" y="207.5" font-size="12.5" font-weight="400" fill="#1f2937">cliente</text>
+<text x="618" y="207.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text  ·  NN</text>
+<line x1="360" y1="218" x2="630" y2="218" stroke="#eef0f2"/>
+<text x="374" y="237.5" font-size="12.5" font-weight="400" fill="#1f2937">telefono</text>
+<text x="618" y="237.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text  ·  NN</text>
+<line x1="360" y1="248" x2="630" y2="248" stroke="#eef0f2"/>
+<text x="374" y="267.5" font-size="12.5" font-weight="400" fill="#1f2937">hora</text>
+<text x="618" y="267.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text</text>
+<line x1="360" y1="278" x2="630" y2="278" stroke="#eef0f2"/>
+<text x="374" y="297.5" font-size="12.5" font-weight="400" fill="#1f2937">metodo</text>
+<text x="618" y="297.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text</text>
+<line x1="360" y1="308" x2="630" y2="308" stroke="#eef0f2"/>
+<text x="374" y="327.5" font-size="12.5" font-weight="400" fill="#1f2937">notas</text>
+<text x="618" y="327.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text</text>
+<line x1="360" y1="338" x2="630" y2="338" stroke="#eef0f2"/>
+<text x="374" y="357.5" font-size="12.5" font-weight="400" fill="#1f2937">total</text>
+<text x="618" y="357.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">numeric  ·  NN</text>
+<line x1="360" y1="368" x2="630" y2="368" stroke="#eef0f2"/>
+<text x="374" y="387.5" font-size="12.5" font-weight="400" fill="#1f2937">estado</text>
+<text x="618" y="387.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text  ·  NN</text>
+<line x1="360" y1="398" x2="630" y2="398" stroke="#eef0f2"/>
+<text x="374" y="417.5" font-size="12.5" font-weight="400" fill="#1f2937">created_at</text>
+<text x="618" y="417.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">timestamptz  ·  NN</text>
+<rect x="710" y="250" width="260" height="32" rx="7" fill="#b5701a"/>
+<rect x="710" y="274" width="260" height="8" fill="#b5701a"/>
+<text x="724" y="272" font-size="15" font-weight="700" fill="#fff">pedido_items</text>
+<rect x="710" y="282" width="260" height="150" fill="#fff" stroke="#b5701a" stroke-width="1.5"/>
+<text x="724" y="301.5" font-size="12.5" font-weight="700" fill="#1f2937">id</text>
+<text x="958" y="301.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#7E1A26">bigint  ·  PK</text>
+<line x1="710" y1="312" x2="970" y2="312" stroke="#eef0f2"/>
+<text x="724" y="331.5" font-size="12.5" font-weight="700" fill="#1f2937">pedido_id</text>
+<text x="958" y="331.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#2F6B4F">bigint  ·  FK  ·  NN</text>
+<line x1="710" y1="342" x2="970" y2="342" stroke="#eef0f2"/>
+<text x="724" y="361.5" font-size="12.5" font-weight="700" fill="#1f2937">plato_id</text>
+<text x="958" y="361.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#2F6B4F">bigint  ·  FK  ·  NN</text>
+<line x1="710" y1="372" x2="970" y2="372" stroke="#eef0f2"/>
+<text x="724" y="391.5" font-size="12.5" font-weight="400" fill="#1f2937">cantidad</text>
+<text x="958" y="391.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">integer  ·  NN</text>
+<line x1="710" y1="402" x2="970" y2="402" stroke="#eef0f2"/>
+<text x="724" y="421.5" font-size="12.5" font-weight="400" fill="#1f2937">precio_unitario</text>
+<text x="958" y="421.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">numeric  ·  NN</text>
+<rect x="1030" y="96" width="260" height="32" rx="7" fill="#2b6b8a"/>
+<rect x="1030" y="120" width="260" height="8" fill="#2b6b8a"/>
+<text x="1044" y="118" font-size="15" font-weight="700" fill="#fff">platos</text>
+<text x="1278" y="117" font-size="11" font-style="italic" text-anchor="end" fill="#fff" opacity="0.85">catálogo público</text>
+<rect x="1030" y="128" width="260" height="330" fill="#fff" stroke="#2b6b8a" stroke-width="1.5"/>
+<text x="1044" y="147.5" font-size="12.5" font-weight="700" fill="#1f2937">id</text>
+<text x="1278" y="147.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#7E1A26">bigint  ·  PK</text>
+<line x1="1030" y1="158" x2="1290" y2="158" stroke="#eef0f2"/>
+<text x="1044" y="177.5" font-size="12.5" font-weight="400" fill="#1f2937">nombre</text>
+<text x="1278" y="177.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text  ·  NN</text>
+<line x1="1030" y1="188" x2="1290" y2="188" stroke="#eef0f2"/>
+<text x="1044" y="207.5" font-size="12.5" font-weight="400" fill="#1f2937">descripcion</text>
+<text x="1278" y="207.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text</text>
+<line x1="1030" y1="218" x2="1290" y2="218" stroke="#eef0f2"/>
+<text x="1044" y="237.5" font-size="12.5" font-weight="400" fill="#1f2937">categoria</text>
+<text x="1278" y="237.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text  ·  NN</text>
+<line x1="1030" y1="248" x2="1290" y2="248" stroke="#eef0f2"/>
+<text x="1044" y="267.5" font-size="12.5" font-weight="400" fill="#1f2937">precio_antes</text>
+<text x="1278" y="267.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">numeric  ·  NN</text>
+<line x1="1030" y1="278" x2="1290" y2="278" stroke="#eef0f2"/>
+<text x="1044" y="297.5" font-size="12.5" font-weight="400" fill="#1f2937">precio</text>
+<text x="1278" y="297.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">numeric  ·  NN</text>
+<line x1="1030" y1="308" x2="1290" y2="308" stroke="#eef0f2"/>
+<text x="1044" y="327.5" font-size="12.5" font-weight="400" fill="#1f2937">precio_oferta</text>
+<text x="1278" y="327.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">numeric</text>
+<line x1="1030" y1="338" x2="1290" y2="338" stroke="#eef0f2"/>
+<text x="1044" y="357.5" font-size="12.5" font-weight="400" fill="#1f2937">vence</text>
+<text x="1278" y="357.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text</text>
+<line x1="1030" y1="368" x2="1290" y2="368" stroke="#eef0f2"/>
+<text x="1044" y="387.5" font-size="12.5" font-weight="400" fill="#1f2937">destacado</text>
+<text x="1278" y="387.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">boolean  ·  NN</text>
+<line x1="1030" y1="398" x2="1290" y2="398" stroke="#eef0f2"/>
+<text x="1044" y="417.5" font-size="12.5" font-weight="400" fill="#1f2937">activo</text>
+<text x="1278" y="417.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">boolean  ·  NN</text>
+<line x1="1030" y1="428" x2="1290" y2="428" stroke="#eef0f2"/>
+<text x="1044" y="447.5" font-size="12.5" font-weight="400" fill="#1f2937">created_at</text>
+<text x="1278" y="447.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">timestamptz  ·  NN</text>
+<rect x="360" y="560" width="270" height="32" rx="7" fill="#6d4a8f"/>
+<rect x="360" y="584" width="270" height="8" fill="#6d4a8f"/>
+<text x="374" y="582" font-size="15" font-weight="700" fill="#fff">devoluciones</text>
+<rect x="360" y="592" width="270" height="150" fill="#fff" stroke="#6d4a8f" stroke-width="1.5"/>
+<text x="374" y="611.5" font-size="12.5" font-weight="700" fill="#1f2937">id</text>
+<text x="618" y="611.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#7E1A26">bigint  ·  PK</text>
+<line x1="360" y1="622" x2="630" y2="622" stroke="#eef0f2"/>
+<text x="374" y="641.5" font-size="12.5" font-weight="700" fill="#1f2937">pedido_id</text>
+<text x="618" y="641.5" font-size="11.5" font-weight="700" text-anchor="end" fill="#2F6B4F">bigint  ·  FK  ·  UQ  ·  NN</text>
+<line x1="360" y1="652" x2="630" y2="652" stroke="#eef0f2"/>
+<text x="374" y="671.5" font-size="12.5" font-weight="400" fill="#1f2937">motivo</text>
+<text x="618" y="671.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text  ·  NN</text>
+<line x1="360" y1="682" x2="630" y2="682" stroke="#eef0f2"/>
+<text x="374" y="701.5" font-size="12.5" font-weight="400" fill="#1f2937">estado</text>
+<text x="618" y="701.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">text  ·  NN</text>
+<line x1="360" y1="712" x2="630" y2="712" stroke="#eef0f2"/>
+<text x="374" y="731.5" font-size="12.5" font-weight="400" fill="#1f2937">created_at</text>
+<text x="618" y="731.5" font-size="11.5" font-weight="400" text-anchor="end" fill="#6b7280">timestamptz  ·  NN</text>
+<path d="M165,248 V330" fill="none" stroke="#334155" stroke-width="2"/>
+<line x1="156" y1="248" x2="174" y2="248" stroke="#334155" stroke-width="2"/>
+<line x1="156" y1="330" x2="174" y2="330" stroke="#334155" stroke-width="2"/>
+<text x="174" y="293.0" font-size="11.5" font-weight="700" fill="#334155">1 : 1  (mismo id)</text>
+<path d="M290,143 H325 V173 H360" fill="none" stroke="#334155" stroke-width="2"/>
+<line x1="296" y1="134.0" x2="296" y2="152.0" stroke="#334155" stroke-width="2"/>
+<line x1="344" y1="173.0" x2="360" y2="165.0" stroke="#334155" stroke-width="2"/><line x1="344" y1="173.0" x2="360" y2="173.0" stroke="#334155" stroke-width="2"/><line x1="344" y1="173.0" x2="360" y2="181.0" stroke="#334155" stroke-width="2"/>
+<text x="300" y="135.0" font-size="11.5" font-weight="700" fill="#334155">1 : N</text>
+<path d="M630,143 H672 V327 H710" fill="none" stroke="#334155" stroke-width="2"/>
+<line x1="636" y1="134.0" x2="636" y2="152.0" stroke="#334155" stroke-width="2"/>
+<line x1="694" y1="327.0" x2="710" y2="319.0" stroke="#334155" stroke-width="2"/><line x1="694" y1="327.0" x2="710" y2="327.0" stroke="#334155" stroke-width="2"/><line x1="694" y1="327.0" x2="710" y2="335.0" stroke="#334155" stroke-width="2"/>
+<text x="642" y="135.0" font-size="11.5" font-weight="700" fill="#334155">1 : N</text>
+<path d="M1030,143 H998 V357 H970" fill="none" stroke="#334155" stroke-width="2"/>
+<line x1="1024" y1="134.0" x2="1024" y2="152.0" stroke="#334155" stroke-width="2"/>
+<line x1="986" y1="357.0" x2="970" y2="349.0" stroke="#334155" stroke-width="2"/><line x1="986" y1="357.0" x2="970" y2="357.0" stroke="#334155" stroke-width="2"/><line x1="986" y1="357.0" x2="970" y2="365.0" stroke="#334155" stroke-width="2"/>
+<text x="986" y="135.0" font-size="11.5" font-weight="700" fill="#334155">1 : N</text>
+<path d="M495,428 V560" fill="none" stroke="#334155" stroke-width="2"/>
+<line x1="495" y1="419" x2="495" y2="437" stroke="#334155" stroke-width="2"/>
+<line x1="495" y1="551" x2="495" y2="569" stroke="#334155" stroke-width="2"/>
+<text x="504" y="498.0" font-size="11.5" font-weight="700" fill="#334155">1 : 1</text>
+<rect x="40" y="770" width="1260" height="46" rx="8" fill="#f8fafc" stroke="#e5e7eb"/>
+<text x="56" y="790" font-size="12" fill="#475569"><tspan font-weight="700">Leyenda:</tspan>  PK llave primaria · FK llave foránea · UQ único · NN obligatorio · perfiles se crea con un trigger al registrarse</text>
+<text x="56" y="808" font-size="12" fill="#475569">RLS: cada usuario solo ve/edita lo suyo (platos es lectura pública) · pedidos.estado ∈ { pendiente · listo · entregado · devuelto }</text>
+</svg>

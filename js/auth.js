@@ -1,10 +1,16 @@
-var SUPABASE_URL = 'https://tntqfevzuzczxvallbsj.supabase.co';
-var SUPABASE_ANON_KEY =
+const SUPABASE_URL = 'https://tntqfevzuzczxvallbsj.supabase.co';
+const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRudHFmZXZ6dXpjenh2YWxsYnNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzMwODEsImV4cCI6MjA5ODU0OTA4MX0.y_VFVwN7l-RN_nI7MFezFmCPoh6WG-Tiunbq1Dx6ZPw';
 
 var sb = window.supabase
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null;
+
+async function usuarioActual() {
+  if (sb === null) return null;
+  var res = await sb.auth.getSession();
+  return res.data.session ? res.data.session.user : null;
+}
 
 function traducirError(mensaje) {
   var m = (mensaje || '').toLowerCase();
@@ -60,9 +66,11 @@ function verificarClaves() {
 async function registrarUsuario(evento) {
   evento.preventDefault();
   var nombre = document.getElementById('nombre').value.trim();
+  var apellido = document.getElementById('apellido').value.trim();
   var correo = document.getElementById('correo').value.trim();
   var clave = document.getElementById('clave').value;
   var repetir = document.getElementById('repetir').value;
+  var tipo = document.getElementById('tipo').value;
   var terminos = document.getElementById('terminos').checked;
   var error = document.getElementById('error-registro');
 
@@ -76,7 +84,11 @@ async function registrarUsuario(evento) {
   if (sb === null) { error.textContent = 'No se pudo cargar el sistema de autenticación.'; return false; }
 
   error.textContent = 'Creando tu cuenta...';
-  var res = await sb.auth.signUp({ email: correo, password: clave, options: { data: { nombre: nombre } } });
+  var res = await sb.auth.signUp({
+    email: correo,
+    password: clave,
+    options: { data: { nombre: nombre, apellido: apellido, tipo: tipo } }
+  });
   if (res.error) {
     error.textContent = traducirError(res.error.message);
     return false;

@@ -50,8 +50,9 @@
           <span class="mano">Lo que rescataste</span>
           <h1>Mis pedidos</h1>
           <p>
-            Aquí ves los rescates que has pedido desde este dispositivo: cada uno es un plato
-            que no terminó en la basura. Revisa el estado, filtra y mira cuánto has ahorrado.
+            Aquí ves los rescates que has pedido con tu cuenta: cada uno es un plato que no
+            terminó en la basura. Revisa el estado, filtra, pide una devolución y mira cuánto
+            has rescatado.
           </p>
         </div>
         <div class="portada__arte">
@@ -84,17 +85,12 @@
             <option value="pendiente">Pendiente</option>
             <option value="listo">Listo</option>
             <option value="entregado">Entregado</option>
+            <option value="devuelto">Devuelto</option>
           </select>
-        </div>
-        <div class="tabla-toolbar__grupo">
-          <button class="btn btn--linea" type="button" onclick="vaciarPedidos()">Vaciar historial</button>
         </div>
       </div>
 
-      <p class="carta__note" id="pedidos-demo-aviso" style="max-width:none;">
-        Todavía no has hecho pedidos, así que te mostramos algunos de ejemplo. Cuando confirmes
-        un pedido en el <a href="form_pedido.html" style="color:var(--vino-texto);font-weight:600;">checkout</a>, aparecerá aquí.
-      </p>
+      <p class="carta__note" id="pedidos-aviso" style="max-width:none;display:none;"></p>
 
       <div class="tabla-envoltura">
         <table class="tabla">
@@ -106,6 +102,7 @@
               <th>Total</th>
               <th>Fecha</th>
               <th>Estado</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody id="tbody-pedidos"></tbody>
