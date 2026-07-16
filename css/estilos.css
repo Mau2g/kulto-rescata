@@ -429,6 +429,9 @@ ul {
   grid-template-columns: repeat(4, 1fr);
   gap: clamp(16px, 3vw, 28px);
 }
+.stats--tres {
+  grid-template-columns: repeat(3, 1fr);
+}
 .stat {
   background: #fbf6ee;
   border: 2px solid var(--linea);
@@ -874,6 +877,12 @@ ul {
   border-radius: 999px;
   background: #fff;
 }
+.aviso-tabla {
+  max-width: var(--ancho-max);
+  margin: 0 auto 16px;
+  padding: 0 var(--pad);
+  text-align: center;
+}
 .tabla-envoltura {
   max-width: var(--ancho-max);
   margin: 0 auto;
@@ -1016,6 +1025,7 @@ ul {
 }
 .pie__lockup img {
   height: 28px;
+  width: auto;
 }
 .pie__sello {
   font-family: var(--fuente-mano);
@@ -1162,6 +1172,7 @@ ul {
   );
   transform: skewX(-18deg);
   animation: brillo 3.2s ease-in-out infinite;
+  pointer-events: none;
 }
 @keyframes brillo {
   0% {
